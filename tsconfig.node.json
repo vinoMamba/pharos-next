@@ -4,12 +4,15 @@
     "vite.config.*",
     "vitest.config.*",
     "cypress.config.*",
-    "nightwatch.conf.*",
-    "playwright.config.*"
+    "playwright.config.*",
+    "plugins/**/*.ts",
+    "types/**/*.d.ts"
   ],
   "compilerOptions": {
     "composite": true,
     "module": "ESNext",
-    "types": ["node"]
+    "types": [
+      "node"
+    ]
   }
 }
