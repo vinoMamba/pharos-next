@@ -84,6 +84,7 @@ export interface ProjectConfig {
   // Use error-handler-plugin
   useErrorHandle: boolean;
   permissionMode: PermissionModeEnum;
+  transitionSetting: TransitionSetting;
 }
 
 export interface GlobConfig {

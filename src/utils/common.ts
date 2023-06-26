@@ -1,5 +1,7 @@
+import type {RouteLocationNormalized} from 'vue-router';
 import {isArray, isObject} from '/@/utils/is';
 import {cloneDeep, isEqual, mergeWith, unionWith} from 'lodash-es';
+import type {RouteRecordNormalized} from 'vue-router';
 
 /**
  * Add the object as a parameter to the URL
@@ -41,3 +43,19 @@ export function deepMerge<T extends object | null | undefined, U extends object 
     }
   });
 }
+
+export function getRawRoute(route: RouteLocationNormalized): RouteLocationNormalized {
+  if (!route) return route;
+  const {matched, ...opt} = route;
+  return {
+    ...opt,
+    matched: (matched
+      ? matched.map((item) => ({
+        meta: item.meta,
+        name: item.name,
+        path: item.path,
+      }))
+      : undefined) as RouteRecordNormalized[],
+  };
+}
+

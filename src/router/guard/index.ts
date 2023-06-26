@@ -1,17 +1,16 @@
 import type {Router, RouteLocationNormalized} from 'vue-router';
 import {useAppStoreWithOut} from '/@/store/modules/app';
 import {useUserStoreWithOut} from '/@/store/modules/user';
-import {useTransitionSetting} from '/@/hooks/setting/useTransitionSetting';
+import {useTransitionSetting} from '/@/hooks/useTransitionSetting';
 import {AxiosCanceler} from '/@/utils/http/axios/axiosCancel';
 import {Modal, notification} from 'ant-design-vue';
 import {warn} from '/@/utils/log';
 import {unref} from 'vue';
-import {setRouteChange} from '/@/logics/mitt/routeChange';
 import {createPermissionGuard} from './permissionGuard';
 import {createStateGuard} from './stateGuard';
 import nProgress from 'nprogress';
-import projectSetting from '/@/settings/projectSetting';
 import {createParamMenuGuard} from './paramMenuGuard';
+import {setRouteChange} from '/@/utils/router';
 
 // Don't change the order of creation
 export function setupRouterGuard(router: Router) {
@@ -83,11 +82,7 @@ function createPageLoadingGuard(router: Router) {
  * @param router
  */
 function createHttpGuard(router: Router) {
-  const {removeAllHttpPending} = projectSetting;
   let axiosCanceler: Nullable<AxiosCanceler>;
-  if (removeAllHttpPending) {
-    axiosCanceler = new AxiosCanceler();
-  }
   router.beforeEach(async () => {
     // Switching the route will delete the previous request
     axiosCanceler?.removeAllPending();
@@ -115,14 +110,10 @@ function createScrollGuard(router: Router) {
  * @param router
  */
 export function createMessageGuard(router: Router) {
-  const {closeMessageOnSwitch} = projectSetting;
-
   router.beforeEach(async () => {
     try {
-      if (closeMessageOnSwitch) {
-        Modal.destroyAll();
-        notification.destroy();
-      }
+      Modal.destroyAll();
+      notification.destroy();
     } catch (error) {
       warn('message guard error:' + error);
     }

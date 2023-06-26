@@ -148,6 +148,8 @@ export const useUserStore = defineStore("app-user", () => {
     setUserInfo,
     setSessionTimeout,
     resetState,
+    afterLoginAction,
+    getUserInfoAction,
     login,
     logout
   }

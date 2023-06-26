@@ -6,4 +6,10 @@ export const projectSetting: ProjectConfig = {
   // Use error-handler-plugin
   useErrorHandle: false,
   permissionMode: PermissionModeEnum.ROUTE_MAPPING,
+  transitionSetting: {
+    enable: true,
+    basicTransition: 'fade-transform',
+    openPageLoading: true,
+    openNProgress: false
+  },
 };

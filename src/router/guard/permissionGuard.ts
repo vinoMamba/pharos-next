@@ -1,11 +1,11 @@
-import type { Router, RouteRecordRaw } from 'vue-router';
+import type {Router, RouteRecordRaw} from 'vue-router';
 
-import { usePermissionStoreWithOut } from '/@/store/modules/permission';
+import {usePermissionStoreWithOut} from '/@/store/modules/permission';
 
-import { PageEnum } from '/@/enums/pageEnum';
-import { useUserStoreWithOut } from '/@/store/modules/user';
+import {PageEnum} from '/@/enums/pageEnum';
+import {useUserStoreWithOut} from '/@/store/modules/user';
 
-import { PAGE_NOT_FOUND_ROUTE } from '/@/router/routes/basic';
+import {PAGE_NOT_FOUND_ROUTE} from '/@/router/routes/basic';
 
 const LOGIN_PATH = PageEnum.BASE_LOGIN;
 
@@ -15,7 +15,6 @@ export function createPermissionGuard(router: Router) {
   const userStore = useUserStoreWithOut();
   const permissionStore = usePermissionStoreWithOut();
   router.beforeEach(async (to, from, next) => {
-    console.log(to);
     if (
       to.path === PageEnum.BASE_HOME &&
       userStore.getUserInfo.homePath &&
@@ -53,7 +52,7 @@ export function createPermissionGuard(router: Router) {
       }
 
       // redirect login page
-      const redirectData: { path: string; replace: boolean; query?: Recordable<string> } = {
+      const redirectData: {path: string; replace: boolean; query?: Recordable<string>} = {
         path: LOGIN_PATH,
         replace: true,
       };
@@ -103,11 +102,11 @@ export function createPermissionGuard(router: Router) {
 
     if (to.name === PAGE_NOT_FOUND_ROUTE.name) {
       // 动态添加路由后，此处应当重定向到fullPath，否则会加载404页面内容
-      next({ path: to.fullPath, replace: true, query: to.query });
+      next({path: to.fullPath, replace: true, query: to.query});
     } else {
       const redirectPath = (from.query.redirect || to.path) as string;
       const redirect = decodeURIComponent(redirectPath);
-      const nextData = to.path === redirect ? { ...to, replace: true } : { path: redirect };
+      const nextData = to.path === redirect ? {...to, replace: true} : {path: redirect};
       next(nextData);
     }
   });
