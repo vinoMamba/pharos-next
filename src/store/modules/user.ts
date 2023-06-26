@@ -105,7 +105,6 @@ export const useUserStore = defineStore("app-user", () => {
       realName: "admin",
       desc: "manager",
       roles: [],
-      homePath: "/dashboard/analysis",
       avatar: "https://q1.qlogo.cn/g?b=qq&nk=123456&s=640",
     } as UserInfo
     const {roles = []} = userInfo;
