@@ -5,5 +5,7 @@ import {ref} from 'vue';
 const isLodaing = ref(true)
 </script>
 <template>
-  <Spin tip="登录中..." :spinning="isLodaing" />
+  <div class="h-full w-full flex items-center justify-center">
+    <Spin tip="登录中..." :spinning="isLodaing" size="large" />
+  </div>
 </template>

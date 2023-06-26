@@ -52,6 +52,9 @@ export default defineConfig((configEnv: ConfigEnv) => {
             'font-size-base': '14px', //  Main font size
             'border-radius-base': '2px', //  Component/float fillet
             'app-content-background': '#fafafa', //   Link color
+            'text-color-secondary': '#999', //  Gray text color
+            'component-background': '#fff', //  Component background color
+            'layout-body-background': '#f0f2f5', //   Layout background color
           },
           javascriptEnabled: true,
         }
