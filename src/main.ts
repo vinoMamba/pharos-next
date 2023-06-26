@@ -1,4 +1,4 @@
-import 'uno.css';
+import 'virtual:uno.css';
 import '/@/design/index.less';
 import 'ant-design-vue/dist/antd.css';
 import {createApp} from "vue"
