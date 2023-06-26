@@ -84,7 +84,6 @@ export const useUserStore = defineStore("app-user", () => {
     } else {
       const permissionStore = usePermissionStore();
       if (!permissionStore.getIsDynamicAddedRoute) {
-        console.log('动态路由未添加');
         const routes = await permissionStore.buildRoutesAction();
         routes.forEach((route) => {
           router.addRoute(route as unknown as RouteRecordRaw);

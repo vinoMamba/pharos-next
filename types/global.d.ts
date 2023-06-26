@@ -61,6 +61,7 @@ declare global {
     VITE_PUBLIC_PATH: string;
     VITE_GLOB_APP_TITLE: string;
     VITE_BUILD_COMPRESS: 'gzip' | 'brotli' | 'none';
+    VITE_PROXY: [string, string][];
   }
 
   declare function parseInt(s: string | number, radix?: number): number;
@@ -86,6 +87,6 @@ declare global {
 
 declare module 'vue' {
   export type JSXComponent<Props = any> =
-    | { new (): ComponentPublicInstance<Props> }
+    | {new(): ComponentPublicInstance<Props>}
     | FunctionalComponent<Props>;
 }

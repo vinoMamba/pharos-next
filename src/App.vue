@@ -1,7 +1,12 @@
 <script setup lang="ts">
+import {AppProvider} from './components/App/AppProvider';
+import {RouterView} from 'vue-router';
+
 </script>
 
 <template>
-  <h1>pharos vue next</h1>
+  <AppProvider>
+    <RouterView />
+  </AppProvider>
 </template>
 

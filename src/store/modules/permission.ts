@@ -157,7 +157,6 @@ export const usePermissionStore = defineStore("app-permission", () => {
         // 移除掉 ignoreRoute: true 的路由 一级路由；
         routes = routes.filter(routeRemoveIgnoreFilter);
         // 对菜单进行排序
-        console.log('menuList', menuList);
         menuList.sort((a, b) => {
           return (a.meta?.orderNo || 0) - (b.meta?.orderNo || 0);
         });

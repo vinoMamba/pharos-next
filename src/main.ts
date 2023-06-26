@@ -1,6 +1,6 @@
-import './assets/main.css'
-import 'ant-design-vue/dist/antd.css'
-import 'virtual:uno.css'
+import 'uno.css';
+import '/@/design/index.less';
+import 'ant-design-vue/dist/antd.css';
 import {createApp} from "vue"
 import App from './App.vue'
 import {router, setupRouter} from "./router"
