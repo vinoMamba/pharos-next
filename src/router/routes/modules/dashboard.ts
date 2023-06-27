@@ -8,7 +8,7 @@ const home: AppRouteModule = {
   redirect: '/home/index',
   meta: {
     orderNo: 10,
-    icon: 'ion:grid-outline',
+    icon: 'i-mdi-alarm-bell',
     title: '首页',
     hideChildrenInMenu: true,
   },

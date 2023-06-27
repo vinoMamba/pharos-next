@@ -12,9 +12,10 @@ defineProps({
   isHorizontal: Boolean
 })
 
+
 </script>
 <template>
-  <span>
+  <span class="flex items-center">
     {{ item.name }}
   </span>
 </template>

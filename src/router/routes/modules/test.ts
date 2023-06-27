@@ -9,7 +9,7 @@ const dashboard: AppRouteModule = {
   redirect: '/dashboard/analysis',
   meta: {
     orderNo: 10,
-    icon: 'ion:grid-outline',
+    icon: 'i-mdi-alarm-bell',
     title: 'dashboard',
   },
   children: [
@@ -19,6 +19,7 @@ const dashboard: AppRouteModule = {
       component: () => import('/@/views/basic/TestDemo1.vue'),
       meta: {
         title: "测试",
+        icon: 'i-mdi-alarm',
       },
     },
     {
@@ -27,6 +28,7 @@ const dashboard: AppRouteModule = {
       component: () => import('/@/views/basic/TestDemo2.vue'),
       meta: {
         title: "测试2",
+        icon: 'i-mdi-alarm',
       },
     },
   ],

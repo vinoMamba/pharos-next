@@ -25,12 +25,15 @@ const hasChildren = computed(() => {
 <template>
   <PharosMenuItem v-if="!hasChildren" :item="item" />
   <Menu.SubMenu v-if="hasChildren" :key="`submenu-${item.path}`">
+    <template #icon>
+      <div :class="item.icon"></div>
+    </template>
     <template #title>
       <PharosMenuContent :item="item" />
     </template>
 
     <template v-for="childrenItem in item.children || []" :key="childrenItem.path">
-      <PharosMenuItem :item="childrenItem" />
+      <PharosSubMenu :item="childrenItem" />
     </template>
   </Menu.SubMenu>
 </template>

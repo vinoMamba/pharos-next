@@ -18,7 +18,10 @@ defineProps({
 
 </script>
 <template>
-  <Menu.Item :key="item.path">
+  <Menu.Item :key="item.path" style="display: flex; align-items: center;">
+    <template #icon>
+      <div :class="item.icon" style="flex-shrink: 0;"></div>
+    </template>
     <PharosMenuContent :item="item" />
   </Menu.Item>
 </template>
