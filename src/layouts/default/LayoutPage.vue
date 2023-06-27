@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import {Layout} from "ant-design-vue";
-import {RouterView} from "vue-router"
 import PharosHeader from "./header/PharosHeader.vue"
 import PharosSider from "./sider/PharosSider.vue";
+import PharosContent from "./content/PharosContent.vue";
 
 const {Content} = Layout
 </script>
@@ -12,14 +12,7 @@ const {Content} = Layout
     <Layout>
       <Content>
         <PharosHeader />
-        <RouterView>
-          <template #default="{Component, route}">
-            <!-- TODO: Add transition -->
-            <Transition>
-              <component :is="Component" :key="route.fullPath" />
-            </Transition>
-          </template>
-        </RouterView>
+        <PharosContent />
       </Content>
     </Layout>
   </Layout>
