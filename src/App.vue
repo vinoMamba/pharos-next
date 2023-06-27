@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {AppProvider} from './components/App/AppProvider';
+import {AppProvider} from './components/App';
 import {RouterView} from 'vue-router';
 
 </script>
