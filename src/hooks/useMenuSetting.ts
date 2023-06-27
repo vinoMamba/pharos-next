@@ -22,6 +22,7 @@ export const useMenuSetting = () => {
   return {
     collapsed,
     menuWidth,
-    toggleCollapsed
+    toggleCollapsed,
+    setMenuSetting,
   }
 }

@@ -1,21 +1,21 @@
-import type { Menu, MenuModule } from '/@/router/types';
-import type { RouteRecordNormalized } from 'vue-router';
+import type {AppRouteRecordRaw, Menu, MenuModule} from '/@/router/types';
+import type {RouteRecordNormalized} from 'vue-router';
 
-import { useAppStoreWithOut } from '/@/store/modules/app';
-import { usePermissionStore } from '/@/store/modules/permission';
-import { transformMenuModule, getAllParentPath } from '/@/router/helper/menuHelper';
-import { filter } from '/@/utils/helper/treeHelper';
-import { isUrl } from '/@/utils/is';
-import { router } from '/@/router';
-import { PermissionModeEnum } from '/@/enums/appEnum';
-import { pathToRegexp } from 'path-to-regexp';
+import {useAppStoreWithOut} from '/@/store/modules/app';
+import {usePermissionStore} from '/@/store/modules/permission';
+import {transformMenuModule, getAllParentPath} from '/@/router/helper/menuHelper';
+import {filter} from '/@/utils/helper/treeHelper';
+import {isUrl} from '/@/utils/is';
+import {router} from '/@/router';
+import {PermissionModeEnum} from '/@/enums/appEnum';
+import {pathToRegexp} from 'path-to-regexp';
 
-const modules = import.meta.globEager('./modules/**/*.ts');
+const modules = import.meta.glob('./modules/**/*.ts', {eager: true});
 
 const menuModules: MenuModule[] = [];
 
 Object.keys(modules).forEach((key) => {
-  const mod = modules[key].default || {};
+  const mod = (modules[key] as {default: AppRouteRecordRaw}).default || {};
   const modList = Array.isArray(mod) ? [...mod] : [mod];
   menuModules.push(...modList);
 });
@@ -54,8 +54,8 @@ const staticMenus: Menu[] = [];
 async function getAsyncMenus() {
   const permissionStore = usePermissionStore();
   //递归过滤所有隐藏的菜单
-  const menuFilter = (items) => {
-    return items.filter((item) => {
+  const menuFilter = (items: any) => {
+    return items.filter((item: Menu) => {
       const show = !item.meta?.hideMenu && !item.hideMenu;
       if (show && item.children) {
         item.children = menuFilter(item.children);
@@ -83,14 +83,14 @@ export const getMenus = async (): Promise<Menu[]> => {
 
 export async function getCurrentParentPath(currentPath: string) {
   const menus = await getAsyncMenus();
-  const allParentPath = await getAllParentPath(menus, currentPath);
+  const allParentPath = getAllParentPath(menus, currentPath);
   return allParentPath?.[0];
 }
 
 // Get the level 1 menu, delete children
 export async function getShallowMenus(): Promise<Menu[]> {
   const menus = await getAsyncMenus();
-  const shallowMenuList = menus.map((item) => ({ ...item, children: undefined }));
+  const shallowMenuList = menus.map((item: Menu) => ({...item, children: undefined}));
   if (isRoleMode()) {
     const routes = router.getRoutes();
     return shallowMenuList.filter(basicFilter(routes));

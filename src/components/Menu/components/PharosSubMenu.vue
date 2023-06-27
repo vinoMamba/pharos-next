@@ -3,6 +3,7 @@ import type {Menu as MenuItem} from '/@/router/types';
 import {computed} from 'vue';
 import {Menu} from 'ant-design-vue';
 import PharosMenuItem from './PharosMenuItem.vue';
+import PharosMenuContent from './PharosMenuContent.vue';
 
 
 const props = defineProps({
@@ -25,11 +26,11 @@ const hasChildren = computed(() => {
   <PharosMenuItem v-if="!hasChildren" :item="item" />
   <Menu.SubMenu v-if="hasChildren" :key="`submenu-${item.path}`">
     <template #title>
-      <MenuItemContent v-bind="$props" :item="item" />
+      <PharosMenuContent :item="item" />
     </template>
 
     <template v-for="childrenItem in item.children || []" :key="childrenItem.path">
-      <PharosMenuItem v-bind="$props" :item="childrenItem" />
+      <PharosMenuItem :item="childrenItem" />
     </template>
   </Menu.SubMenu>
 </template>

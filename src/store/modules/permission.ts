@@ -160,7 +160,6 @@ export const usePermissionStore = defineStore("app-permission", () => {
         menuList.sort((a, b) => {
           return (a.meta?.orderNo || 0) - (b.meta?.orderNo || 0);
         });
-
         // 设置菜单列表
         setFrontMenuList(menuList);
 

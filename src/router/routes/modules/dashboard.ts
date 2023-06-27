@@ -10,6 +10,7 @@ const home: AppRouteModule = {
     orderNo: 10,
     icon: 'ion:grid-outline',
     title: '首页',
+    hideChildrenInMenu: true,
   },
   children: [
     {
@@ -18,6 +19,7 @@ const home: AppRouteModule = {
       component: () => import('/@/views/basic/home/HomePage.vue'),
       meta: {
         title: '首页',
+        hideMenu: true,
       }
     }
   ]
