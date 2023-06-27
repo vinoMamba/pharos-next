@@ -2,12 +2,13 @@
 import {Layout} from "ant-design-vue";
 import {RouterView} from "vue-router"
 import PharosHeader from "./header/PharosHeader.vue"
+import PharosSider from "./sider/PharosSider.vue";
 
-const {Sider, Content} = Layout
+const {Content} = Layout
 </script>
 <template>
   <Layout class="h-full w-full">
-    <Sider>Sider</Sider>
+    <PharosSider />
     <Layout>
       <Content>
         <PharosHeader />

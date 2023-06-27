@@ -12,4 +12,10 @@ export const projectSetting: ProjectConfig = {
     openPageLoading: true,
     openNProgress: false
   },
+  menuSetting: {
+    // Menu collapse
+    collapsed: false,
+    // Menu width
+    menuWidth: 210,
+  }
 };

@@ -18,6 +18,7 @@ export const useAppStore = defineStore("app-config", () => {
   const getBeforeMiniInfo = computed(() => beforeMiniInfo.value)
   const getProjectConfig = computed(() => projectConfig.value || {} as ProjectConfig)
   const getTransitionSetting = computed(() => getProjectConfig.value.transitionSetting)
+  const getMenuSetting = computed(() => getProjectConfig.value.menuSetting)
 
   function setPageLoading(loading: boolean) {
     pageLoading.value = loading
@@ -27,7 +28,7 @@ export const useAppStore = defineStore("app-config", () => {
     beforeMiniInfo.value = info
   }
 
-  function setProjectConfig(config: ProjectConfig) {
+  function setProjectConfig(config: Partial<ProjectConfig>) {
     projectConfig.value = deepMerge(settingConfig, config)
   }
 
@@ -57,7 +58,8 @@ export const useAppStore = defineStore("app-config", () => {
     setProjectConfig,
     resetAllState,
     setPageLoadingAction,
-    getTransitionSetting
+    getTransitionSetting,
+    getMenuSetting
   }
 })
 
