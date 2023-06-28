@@ -64,7 +64,7 @@ export interface TransitionSetting {
 }
 
 export interface ProjectConfig {
-  // Use error-handler-plugin
+  useDingLogin: boolean;
   useErrorHandle: boolean;
   permissionMode: PermissionModeEnum;
   transitionSetting: TransitionSetting;

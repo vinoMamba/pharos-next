@@ -3,7 +3,6 @@ import {ref} from "vue";
 import type {UserInfo} from "/#/store";
 import type {RoleEnum} from "/@/enums/roleEnum";
 import {computed} from "vue";
-import type {ErrorMessageMode} from "/#/axios";
 import {router} from "/@/router";
 import {PageEnum} from "/@/enums/pageEnum";
 import {isArray} from "/@/utils/is";
@@ -11,6 +10,7 @@ import {usePermissionStore} from "./permission";
 import type {RouteRecordRaw} from "vue-router";
 import {PAGE_NOT_FOUND_ROUTE} from "/@/router/routes/basic";
 import {store} from "..";
+import {loginOut, loginUseDingtalk, loginUsePwd} from "/@/api/sys/login";
 
 export const useUserStore = defineStore("app-user", () => {
   const userInfo = ref<Nullable<UserInfo>>(null)
@@ -51,23 +51,66 @@ export const useUserStore = defineStore("app-user", () => {
     lastUpdateTime.value = 0
   }
 
+  /*
+  * @description: login with dingtalk
+  */
+
+  async function loginWithDingtalk(params: {
+    goHome?: boolean;
+    authCode: string;
+  }): Promise<any | null> {
+    try {
+      const {goHome = true, authCode} = params;
+      const {tokenInfo, userInfo} = await loginUseDingtalk({authCode})
+      const {tokenValue} = tokenInfo;
+
+      // save token
+      setToken(tokenValue);
+      // save user info
+      setUserInfo(userInfo);
+      const {roles = []} = userInfo;
+      if (isArray(roles)) {
+        const roleList = roles.map((item) => item.value) as RoleEnum[];
+        setRoleList(roleList);
+      } else {
+        userInfo.roles = [];
+        setRoleList([]);
+      }
+
+      return afterLoginAction(goHome);
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
   /**
- * @description: login
+ * @description: login with username and password
  */
-  async function login(
+  async function loginWithPwd(
     params: {
       goHome?: boolean;
-      mode?: ErrorMessageMode;
+      username: string;
+      password: string;
     },
   ): Promise<any | null> {
     try {
-      const {goHome = true} = params;
-      //TODO login API
-      const data = {token: "123456789"}
-      const {token} = data;
+      const {goHome = true, username, password} = params;
+      const {tokenInfo, userInfo} = await loginUsePwd({username, password})
+      const {tokenValue} = tokenInfo;
 
       // save token
-      setToken(token);
+      setToken(tokenValue);
+      // save user info
+      setUserInfo(userInfo);
+      const {roles = []} = userInfo;
+      if (isArray(roles)) {
+        const roleList = roles.map((item) => item.value) as RoleEnum[];
+        setRoleList(roleList);
+      } else {
+        userInfo.roles = [];
+        setRoleList([]);
+      }
+
       return afterLoginAction(goHome);
     } catch (error) {
       return Promise.reject(error);
@@ -76,8 +119,7 @@ export const useUserStore = defineStore("app-user", () => {
 
   async function afterLoginAction(goHome?: boolean): Promise<any | null> {
     if (!getToken.value) return null;
-    // get user info
-    const userInfo = await getUserInfoAction();
+    const userInfo = getUserInfo.value
     const sessionTimeout = getSessionTimeout
     if (sessionTimeout.value) {
       setSessionTimeout(false);
@@ -96,34 +138,10 @@ export const useUserStore = defineStore("app-user", () => {
     return userInfo;
   }
 
-  async function getUserInfoAction(): Promise<UserInfo | null> {
-    if (!getToken.value) return null;
-    //TODO: get user info API
-    const userInfo = {
-      userId: "1",
-      username: "admin",
-      realName: "admin",
-      desc: "manager",
-      roles: [],
-      avatar: "https://q1.qlogo.cn/g?b=qq&nk=123456&s=640",
-    } as UserInfo
-    const {roles = []} = userInfo;
-    if (isArray(roles)) {
-      const roleList = roles.map((item) => item.value) as RoleEnum[];
-      setRoleList(roleList);
-    } else {
-      userInfo.roles = [];
-      setRoleList([]);
-    }
-    setUserInfo(userInfo);
-    return userInfo;
-  }
-
-
   async function logout(goLogin = false) {
     if (getToken.value) {
       try {
-        //TODO: logout API
+        await loginOut()
       } catch {
         console.log('注销Token失败');
       }
@@ -147,8 +165,8 @@ export const useUserStore = defineStore("app-user", () => {
     setSessionTimeout,
     resetState,
     afterLoginAction,
-    getUserInfoAction,
-    login,
+    loginWithPwd,
+    loginWithDingtalk,
     logout
   }
 })
