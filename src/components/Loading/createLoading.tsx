@@ -5,9 +5,10 @@ import {render} from "vue";
 import type {LoadingProps} from "./props";
 import {Loading} from "./Loading";
 
-export function createLoaidng(props: LoadingProps, target?: HTMLElement) {
+export function createLoaidng(props: Partial<LoadingProps>, target?: HTMLElement) {
 
-  const loadingProps = reactive({
+  const loadingProps = reactive<Partial<LoadingProps>>({
+    loading: true,
     ...props
   })
 

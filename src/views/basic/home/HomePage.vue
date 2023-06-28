@@ -1,16 +1,24 @@
 <script setup lang="ts">
 import {ref} from 'vue';
+import {useLoading} from '/@/components/Loading';
 
-const loading = ref(false);
+const divRef = ref<HTMLElement | null>(null)
+
+const [open, close] = useLoading({
+  target: divRef,
+  props: {
+    tip: 'loading'
+  }
+})
 const handleClick = () => {
-  loading.value = true;
+  open()
   setTimeout(() => {
-    loading.value = false;
-  }, 2000);
-};
+    close()
+  }, 2000)
+}
 </script>
 <template>
-  <div v-loading="loading" @click="handleClick" loading-tip="loading" class="bg-blue relative">
-    <h1>Home Page</h1>
+  <div class="w-full h-400 bg-red relative" ref="divRef">
+    <h1 @click="handleClick">loading</h1>
   </div>
 </template>
