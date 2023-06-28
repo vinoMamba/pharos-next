@@ -16,6 +16,9 @@ dependencies:
   axios:
     specifier: 1.4.0
     version: 1.4.0
+  crypto-js:
+    specifier: ^4.1.1
+    version: 4.1.1
   dayjs:
     specifier: ^1.11.8
     version: 1.11.8
@@ -66,6 +69,9 @@ devDependencies:
   '@tsconfig/node18':
     specifier: 2.0.1
     version: 2.0.1
+  '@types/crypto-js':
+    specifier: ^4.1.1
+    version: 4.1.1
   '@types/jsdom':
     specifier: 21.1.1
     version: 21.1.1
@@ -1066,6 +1072,10 @@ packages:
 
   /@types/chai@4.3.5:
     resolution: {integrity: sha512-mEo1sAde+UCE6b2hxn332f1g1E8WfYRu6p5SvTKr2ZKC1f7gFJXk4h5PyGP9Dt6gCaG8y8XhwnXWC6Iy2cmBng==}
+    dev: true
+
+  /@types/crypto-js@4.1.1:
+    resolution: {integrity: sha512-BG7fQKZ689HIoc5h+6D2Dgq1fABRa0RbBWKBd9SP/MVRVXROflpm5fhwyATX5duFmbStzyzyycPB8qUYKDH3NA==}
     dev: true
 
   /@types/estree@1.0.1:
@@ -2356,6 +2366,10 @@ packages:
       shebang-command: 2.0.0
       which: 2.0.2
     dev: true
+
+  /crypto-js@4.1.1:
+    resolution: {integrity: sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==}
+    dev: false
 
   /css-tree@2.3.1:
     resolution: {integrity: sha512-6Fv1DV/TYw//QF5IzQdqsNDjx/wc8TrMBZsqjL9eW01tWb7R7k/mq+/VXfJCl7SoD5emsJop9cOByJZfs8hYIw==}

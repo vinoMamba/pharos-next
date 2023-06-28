@@ -27,7 +27,6 @@ export const useUserStore = defineStore("app-user", () => {
 
   function setToken(info?: string) {
     token.value = info
-    //TODO: save token to local storage
   }
 
   function setRoleList(role: RoleEnum[]) {
