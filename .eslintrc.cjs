@@ -13,5 +13,6 @@ module.exports = {
   },
   rules: {
     'no-case-declarations': 'off',
+    'vue/multi-word-component-names': 'off',
   }
 }
