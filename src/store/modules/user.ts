@@ -153,9 +153,11 @@ export const useUserStore = defineStore("app-user", () => {
         console.log('注销Token失败');
       }
     }
+
     setToken(undefined);
     setSessionTimeout(false);
     setUserInfo(null);
+
     if (useDingLogin) {
       //TODO: 默认关闭页面
       window.close();

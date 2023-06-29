@@ -1,11 +1,9 @@
 <script setup lang="ts">
+import {PageWrapper} from '/@/components/Page';
 
-const handleClick = () => {
-  console.log('click');
-}
 </script>
 <template>
-  <div class="w-full h-400 bg-red relative">
-    <h1 @click="handleClick">loading</h1>
-  </div>
+  <PageWrapper>
+    <h1>Home Page</h1>
+  </PageWrapper>
 </template>
