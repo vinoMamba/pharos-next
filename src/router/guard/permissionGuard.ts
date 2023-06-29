@@ -23,7 +23,6 @@ export function createPermissionGuard(router: Router) {
       next(userStore.getUserInfo.homePath);
       return;
     }
-
     const token = userStore.getToken;
 
     // Whitelist can be directly entered

@@ -11,6 +11,8 @@ import type {RouteRecordRaw} from "vue-router";
 import {PAGE_NOT_FOUND_ROUTE} from "/@/router/routes/basic";
 import {store} from "..";
 import {loginOut, loginUseDingtalk, loginUsePwd} from "/@/api/sys/login";
+import {CacheStore} from "/@/utils/cache/cache";
+import {TOKEN_KEY, USER_INFO_KEY} from "/@/enums/cacheEnum";
 
 export const useUserStore = defineStore("app-user", () => {
   const userInfo = ref<Nullable<UserInfo>>(null)
@@ -19,14 +21,15 @@ export const useUserStore = defineStore("app-user", () => {
   const sessionTimeout = ref(false)
   const lastUpdateTime = ref(0)
 
-  const getUserInfo = computed<UserInfo>(() => userInfo.value || {} as UserInfo)
-  const getToken = computed(() => token.value || "")
+  const getUserInfo = computed<UserInfo>(() => userInfo.value || CacheStore.getLocal(USER_INFO_KEY) || {} as UserInfo)
+  const getToken = computed(() => token.value || CacheStore.getLocal(TOKEN_KEY))
   const getRoleList = computed(() => roleList.value || [])
   const getSessionTimeout = computed(() => sessionTimeout.value)
   const getLastUpdateTime = computed(() => lastUpdateTime.value)
 
   function setToken(info?: string) {
-    token.value = info
+    token.value = info || ''
+    CacheStore.setLocal(TOKEN_KEY, token.value, true)
   }
 
   function setRoleList(role: RoleEnum[]) {
@@ -36,6 +39,7 @@ export const useUserStore = defineStore("app-user", () => {
   function setUserInfo(info: UserInfo | null) {
     userInfo.value = info
     lastUpdateTime.value = new Date().getTime()
+    CacheStore.setLocal(USER_INFO_KEY, userInfo.value, true)
   }
 
   function setSessionTimeout(flag: boolean) {

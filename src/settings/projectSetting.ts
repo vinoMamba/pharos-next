@@ -3,7 +3,7 @@ import type {ProjectConfig} from '/#/config';
 
 export const projectSetting: ProjectConfig = {
 
-  useDingLogin: true,
+  useDingLogin: false,
 
   useErrorHandle: false,
 
