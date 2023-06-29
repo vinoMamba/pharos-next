@@ -13,6 +13,8 @@ import {store} from "..";
 import {loginOut, loginUseDingtalk, loginUsePwd} from "/@/api/sys/login";
 import {CacheStore} from "/@/utils/cache/cache";
 import {TOKEN_KEY, USER_INFO_KEY} from "/@/enums/cacheEnum";
+import {useMessage} from "/@/hooks/useMessage";
+import {useAppStore} from "/@/store/modules/app"
 
 export const useUserStore = defineStore("app-user", () => {
   const userInfo = ref<Nullable<UserInfo>>(null)
@@ -141,7 +143,9 @@ export const useUserStore = defineStore("app-user", () => {
     return userInfo;
   }
 
-  async function logout(goLogin = false) {
+  async function logout() {
+    const appStore = useAppStore();
+    const useDingLogin = appStore.getProjectConfig.useDingLogin
     if (getToken.value) {
       try {
         await loginOut()
@@ -152,7 +156,24 @@ export const useUserStore = defineStore("app-user", () => {
     setToken(undefined);
     setSessionTimeout(false);
     setUserInfo(null);
-    goLogin && router.push(PageEnum.BASE_LOGIN);
+    if (useDingLogin) {
+      //TODO: 默认关闭页面
+      window.close();
+    } else {
+      router.push(PageEnum.BASE_LOGIN);
+    }
+  }
+
+  function confirmLogout() {
+    const {createConfirm} = useMessage();
+    createConfirm({
+      iconType: 'warning',
+      title: "提示",
+      content: "是否确认退出系统?",
+      onOk: async () => {
+        await logout();
+      },
+    });
   }
 
 
@@ -170,7 +191,8 @@ export const useUserStore = defineStore("app-user", () => {
     afterLoginAction,
     loginWithPwd,
     loginWithDingtalk,
-    logout
+    logout,
+    confirmLogout
   }
 })
 
