@@ -26,6 +26,6 @@ export const buttonProps = {
     default: 'default'
   },
   onClick: {
-    type: Function as PropType<() => void>,
+    type: Function as PropType<(...args: any) => void>,
   }
 }
