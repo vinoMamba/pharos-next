@@ -8,7 +8,7 @@ export const PharosButton = defineComponent({
   inheritAttrs: false,
   setup(props, {slots}) {
     return () => (
-      <Button {...props}>{{
+      <Button {...props} onClick={props.onClick}>{{
         default: () => slots.default && slots.default(),
       }}</Button>
     )

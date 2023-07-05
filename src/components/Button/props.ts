@@ -18,11 +18,14 @@ export const buttonProps = {
     default: false
   },
   size: {
-    type: String as PropType<'large' | 'middle' | 'default'>,
+    type: String as PropType<'large' | 'middle' | 'small'>,
     default: 'default'
   },
   type: {
     type: String as PropType<'primary' | 'dashed' | 'text' | 'link' | 'default'>,
     default: 'default'
   },
+  onClick: {
+    type: Function as PropType<() => void>,
+  }
 }
