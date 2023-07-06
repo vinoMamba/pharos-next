@@ -2,6 +2,8 @@ import type {RouteLocationNormalized} from 'vue-router';
 import {isArray, isObject} from '/@/utils/is';
 import {cloneDeep, isEqual, mergeWith, unionWith} from 'lodash-es';
 import type {RouteRecordNormalized} from 'vue-router';
+import {unref, onMounted, onActivated, nextTick} from 'vue';
+import type {AnyFunction} from '/#/global';
 
 /**
  * Add the object as a parameter to the URL
@@ -57,5 +59,125 @@ export function getRawRoute(route: RouteLocationNormalized): RouteLocationNormal
       }))
       : undefined) as RouteRecordNormalized[],
   };
+}
+
+
+// dynamic use hook props
+export function getDynamicProps<T extends Record<string, unknown>, U>(props: T): Partial<U> {
+  const ret: Recordable = {};
+
+  Object.keys(props).map((key) => {
+    ret[key] = unref((props as Recordable)[key]);
+  });
+
+  return ret as Partial<U>;
+}
+
+
+const hexList: string[] = [];
+for (let i = 0; i <= 15; i++) {
+  hexList[i] = i.toString(16);
+}
+
+export function buildUUID(): string {
+  let uuid = '';
+  for (let i = 1; i <= 36; i++) {
+    if (i === 9 || i === 14 || i === 19 || i === 24) {
+      uuid += '-';
+    } else if (i === 15) {
+      uuid += 4;
+    } else if (i === 20) {
+      uuid += hexList[(Math.random() * 4) | 8];
+    } else {
+      uuid += hexList[(Math.random() * 16) | 0];
+    }
+  }
+  return uuid.replace(/-/g, '');
+}
+
+
+
+/**
+ * Get the left and top offset of the current element
+ * left: the distance between the leftmost element and the left side of the document
+ * top: the distance from the top of the element to the top of the document
+ * right: the distance from the far right of the element to the right of the document
+ * bottom: the distance from the bottom of the element to the bottom of the document
+ * rightIncludeBody: the distance between the leftmost element and the right side of the document
+ * bottomIncludeBody: the distance from the bottom of the element to the bottom of the document
+ *
+ * @description:
+ */
+export interface ViewportOffsetResult {
+  left: number;
+  top: number;
+  right: number;
+  bottom: number;
+  rightIncludeBody: number;
+  bottomIncludeBody: number;
+}
+
+export function getBoundingClientRect(element: Element): DOMRect | number {
+  if (!element || !element.getBoundingClientRect) {
+    return 0;
+  }
+  return element.getBoundingClientRect();
+}
+
+export function getViewportOffset(element: Element): ViewportOffsetResult {
+  const doc = document.documentElement;
+
+  const docScrollLeft = doc.scrollLeft;
+  const docScrollTop = doc.scrollTop;
+  const docClientLeft = doc.clientLeft;
+  const docClientTop = doc.clientTop;
+
+  const pageXOffset = window.pageXOffset;
+  const pageYOffset = window.pageYOffset;
+
+  const box = getBoundingClientRect(element);
+
+  const {left: retLeft, top: rectTop, width: rectWidth, height: rectHeight} = box as DOMRect;
+
+  const scrollLeft = (pageXOffset || docScrollLeft) - (docClientLeft || 0);
+  const scrollTop = (pageYOffset || docScrollTop) - (docClientTop || 0);
+  const offsetLeft = retLeft + pageXOffset;
+  const offsetTop = rectTop + pageYOffset;
+
+  const left = offsetLeft - scrollLeft;
+  const top = offsetTop - scrollTop;
+
+  const clientWidth = window.document.documentElement.clientWidth;
+  const clientHeight = window.document.documentElement.clientHeight;
+  return {
+    left: left,
+    top: top,
+    right: clientWidth - rectWidth - left,
+    bottom: clientHeight - rectHeight - top,
+    rightIncludeBody: clientWidth - left,
+    bottomIncludeBody: clientHeight - top,
+  };
+}
+
+
+/**
+ * 在 OnMounted 或者 OnActivated 时触发
+ * @param hook 任何函数（包括异步函数）
+ */
+export function onMountedOrActivated(hook: AnyFunction) {
+  let mounted: boolean;
+
+  onMounted(() => {
+    hook();
+    nextTick(() => {
+      mounted = true;
+    });
+  });
+
+  onActivated(() => {
+    if (mounted) {
+      hook();
+    }
+  });
 }
 
